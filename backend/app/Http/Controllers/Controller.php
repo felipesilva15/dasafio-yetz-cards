@@ -20,6 +20,10 @@ abstract class Controller
 
     public function show($id) {
         $data = $this->model::find($id);
+
+        if (!$data) {
+            throw new NotFoundHttpException();
+        }
         
         return response()->json($data, 200);
     }

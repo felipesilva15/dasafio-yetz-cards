@@ -18,4 +18,11 @@ class GameController extends Controller
 
         return response()->json($data, 200);
     }
+
+    public function setPlayerConfirmed(Game $game, Player $player, GamePlayerRequest $request) {
+        $requestData = $request->validated();
+        $data = $game->players()->sync([$player->id => $requestData]);
+
+        return response()->json($data, 200);
+    }
 }

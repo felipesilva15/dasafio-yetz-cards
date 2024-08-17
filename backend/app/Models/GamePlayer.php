@@ -16,7 +16,7 @@ class GamePlayer extends Pivot
         'confirmed'
     ];
 
-    protected $cast = [
+    protected $casts = [
         'confirmed' => 'boolean'
     ];
 

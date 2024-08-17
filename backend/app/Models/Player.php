@@ -15,7 +15,7 @@ class Player extends Model
         'goalkeeper'
     ];
 
-    protected $cast = [
+    protected $casts = [
         'goalkeeper' => 'boolean'
     ];
 }

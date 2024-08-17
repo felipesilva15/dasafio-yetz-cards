@@ -14,7 +14,7 @@ class Game extends Model
         'players_per_team'
     ];
 
-    protected $cast = [
+    protected $casts = [
         'date' => 'datetime'
     ];
 }

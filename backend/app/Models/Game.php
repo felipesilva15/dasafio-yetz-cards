@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Game extends Model
 {
@@ -14,7 +15,15 @@ class Game extends Model
         'players_per_team'
     ];
 
+    protected $with = ['players'];
+
     protected $casts = [
         'date' => 'datetime'
     ];
+
+    public function players(): BelongsToMany {
+        return $this->belongsToMany(Player::class, 'game_player')
+                    ->using(GamePlayer::class)
+                    ->withPivot('team_id', 'confirmed');
+    }
 }

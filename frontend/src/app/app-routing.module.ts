@@ -12,6 +12,7 @@ import { authGuard } from './main/guard/auth.guard';
                 children: [
                     // Main
                     { path: 'player', loadChildren: () => import('./main/components/player/player.module').then(m => m.PlayerModule) },
+                    { path: 'game', loadChildren: () => import('./main/components/game/game.module').then(m => m.GameModule) },
                 ],
                 canActivate: [authGuard]
             },

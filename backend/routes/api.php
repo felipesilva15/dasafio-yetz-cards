@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('/games', GameController::class);
 Route::post('/games/{game}/player/{player}', [GameController::class, 'storePlayer']);
 Route::patch('/games/{game}/player/{player}', [GameController::class, 'setPlayerConfirmed']);
+Route::patch('/games/{game}/draw-teams', [GameController::class, 'drawTeams']);
 
 // Players
 Route::apiResource('/players', PlayerController::class);

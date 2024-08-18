@@ -11,6 +11,7 @@ import { authGuard } from './main/guard/auth.guard';
                 path: '', component: AppLayoutComponent,
                 children: [
                     // Main
+                    { path: 'player', loadChildren: () => import('./main/components/player/player.module').then(m => m.PlayerModule) },
                 ],
                 canActivate: [authGuard]
             },

@@ -12,6 +12,14 @@ export class PlayerService {
 
   constructor(private http: HttpClient) { }
 
+  create(data: Player): Observable<Player> {
+    return this.http.post<Player>(`${this.baseUrl}`, data);
+  }
+
+  update(data: Player, id: number): Observable<Player> {
+    return this.http.put<Player>(`${this.baseUrl}/${id}`, data);
+  }
+
   get (id: number): Observable<Player> {
     return this.http.get<Player>(`${this.baseUrl}/${id}`);
   }

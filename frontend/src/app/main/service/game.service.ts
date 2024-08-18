@@ -12,6 +12,14 @@ export class GameService {
 
   constructor(private http: HttpClient) { }
 
+  create(data: Game): Observable<Game> {
+    return this.http.post<Game>(`${this.baseUrl}`, data);
+  }
+
+  update(data: Game, id: number): Observable<Game> {
+    return this.http.put<Game>(`${this.baseUrl}/${id}`, data);
+  }
+
   get (id: number): Observable<Game> {
     return this.http.get<Game>(`${this.baseUrl}/${id}`);
   }

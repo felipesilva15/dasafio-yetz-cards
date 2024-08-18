@@ -1,0 +1,45 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div class="flex justify-content-between">
+                <h4>Jogo</h4>
+				<button pButton pRipple type="button" icon="pi pi-arrow-left" class="p-button-rounded p-button-secondary p-button-text p-0 w-2rem h-2rem" (click)="backPage()"></button>
+			</div>
+            <div class="p-fluid p-formgrid grid mt-1 animation-duration-600 fadein" [formGroup]="formGroup" *ngIf="!isLoading; else loagingSkeleton">
+				<div class="field col-12 py-0">
+                    <label htmlFor="date">Data<span class="text-red-500 font-bold">*</span></label>
+                    <p-calendar id="date" type="date" [maxDate]="maxBirthDate" formControlName="date" inputId="icon" [showIcon]="true" dateFormat="dd/mm/yy" required [ngClass]="{'ng-invalid ng-dirty' : date.invalid && (date.dirty || date.touched)}"></p-calendar>
+                    <div *ngIf="date.invalid && (date.dirty || date.touched)">
+                        <small class="ng-dirty ng-invalid" *ngIf="date.errors?.['required']">Este campo é obrigatório.</small>
+                    </div>
+                </div>
+				<div class="field col-12 py-0">
+					<label htmlFor="players_per_team">Jogadores por time</label>
+					<p-inputNumber id="players_per_team" formControlName="players_per_team" required [showButtons]="true" [min]="2" [ngClass]="{'ng-invalid ng-dirty' : players_per_team.invalid && (players_per_team.dirty || players_per_team.touched)}"></p-inputNumber>
+                    <div *ngIf="players_per_team.invalid && (players_per_team.dirty || players_per_team.touched)">
+						<small class="ng-dirty ng-invalid" *ngIf="players_per_team.errors?.['required']">Este campo é obrigatório.</small>
+                        <small class="ng-dirty ng-invalid" *ngIf="players_per_team.errors?.['min']">Este campo deve ter no mínimo {{ players_per_team.errors?.['min'].min }}.</small>
+                    </div>
+				</div>
+				<div class="field col-12 flex justify-content-end mb-0 py-0">
+					<button pButton pRipple label="Salvar" class="p-button-primary md:w-min" [loading]="isSubmitting" (click)="submit()"></button>
+				</div>
+			</div>
+			<ng-template #loagingSkeleton >
+				<div class="p-fluid p-formgrid grid mt-1">
+					<div field class="field col-12 py-0">
+						<p-skeleton height="16px" width="25%" styleClass="mb-2"></p-skeleton>
+						<p-skeleton width="100%" height="39px"></p-skeleton>
+					</div>
+					<div field class="field col-12 py-0">
+						<p-skeleton height="16px" width="25%" styleClass="mb-2"></p-skeleton>
+						<p-skeleton width="100%" height="39px"></p-skeleton>
+					</div>
+					<div class="field col-12 flex justify-content-end mb-0 py-0">
+						<p-skeleton class="md:w-min" width="80px" height="40px"></p-skeleton>
+					</div>
+				</div>
+			</ng-template>
+        </div>
+    </div>
+</div>

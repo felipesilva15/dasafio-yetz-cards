@@ -69,6 +69,10 @@ export class ListGameComponent {
       (data: Game[]) => {
         this.records = data;
 
+        this.records.forEach((record) => {
+          record.date = new Date(<Date>record.date);
+        });
+
         this.isLoading = false;
       }
     );

@@ -119,6 +119,6 @@ export class ListTeamComponent {
           this.records.push(res);
         }
       }
-    );;
+    );
   }
 }

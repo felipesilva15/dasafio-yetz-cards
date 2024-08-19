@@ -2,7 +2,6 @@
     <p-toolbar styleClass="mb-4">
         <ng-template pTemplate="left">
             <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openFormDialog()"></button>
-            <button pButton pRipple label="Deletar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedRecords($event)" [disabled]="!selectedRecords || !selectedRecords.length"></button>
         </ng-template>
     </p-toolbar>
     <p-table 
@@ -10,9 +9,9 @@
         [value]="records" 
         [columns]="cols" 
         responsiveLayout="scroll" 
-        [rows]="10"
+        [rows]="50"
         [paginator]="true"
-        [rowsPerPageOptions]="[10,20,30]"
+        [rowsPerPageOptions]="[50, 100]"
         [showCurrentPageReport]="true"
         currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} entradas"
         [(selection)]="selectedRecords"
@@ -46,10 +45,10 @@
                         <p-sortIcon field="player.goalkeeper"></p-sortIcon>
                     </div>
                 </th>
-                <th pSortableColumn="team?.name" pResizableColumn>
+                <th pSortableColumn="team.name" pResizableColumn>
                     <div class="flex justify-content-between align-items-center">
                         Time
-                        <p-sortIcon field="team?.name"></p-sortIcon>
+                        <p-sortIcon field="team.name"></p-sortIcon>
                     </div>
                 </th>
                 <th pSortableColumn="confirmed" pResizableColumn>
@@ -85,9 +84,8 @@
                 </td>
                 <td>
                     <div class="flex flex-nowrap gap-1">
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning" (click)="openFormDialog(record, rowIndex)"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteRecord($event, record)"></button>
-                        <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-secondary" [loading]="isLoadingMenuItem && selectedRecord.id == record.id" (click)="setPlayerConfirmed($event, record, rowIndex)"></button>
+                        <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-secondary" [loading]="isLoadingMenuItem && selectedRecord.player.id == record.player.id" (click)="setPlayerConfirmed($event, record, rowIndex)"></button>
                     </div>
                  </td>
             </tr>
@@ -106,7 +104,6 @@
                 <td><p-skeleton></p-skeleton></td>
                 <td><p-skeleton></p-skeleton></td>
                 <td><p-skeleton></p-skeleton></td>
-                <td><p-skeleton></p-skeleton></td>
                 <td>
                     <div class="flex flex-nowrap gap-1">
                         <p-skeleton shape="circle" size="3rem" styleClass="mr-2"></p-skeleton>
@@ -116,6 +113,8 @@
                 </td>
             </tr>
         </ng-template>
+        <ng-template pTemplate="paginator" let-options>
+            <p-paginator [rows]="options.rows" [first]="options.first" [totalRecords]="options.totalRecords" [rowsPerPageOptions]="options.rowsPerPageOptions" appendTo="body"></p-paginator>
+          </ng-template>
     </p-table>
 </div>
-<p-toast key="modal-toast" position="top-right"></p-toast>

@@ -1,3 +1,4 @@
+import { GamePlayerRequest } from './../api/game-player-request';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -5,7 +6,6 @@ import { Game } from '../api/game';
 import { Observable } from 'rxjs';
 import { Team } from '../api/team';
 import { GamePlayer } from '../api/game-player';
-import { GamePlayerRequest } from '../api/game-player-request';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +41,10 @@ export class GameService {
 
   listPlayers(id: number): Observable<GamePlayer[]> {
     return this.http.get<GamePlayer[]>(`${this.baseUrl}/${id}/players`);
+  }
+
+  createPlayer (id: number, playerId: number, data: GamePlayerRequest): Observable<GamePlayer> {
+    return this.http.post<GamePlayer>(`${this.baseUrl}/${id}/player/${playerId}`, data);
   }
 
   deletePlayer (id: number, playerId: number): Observable<void> {

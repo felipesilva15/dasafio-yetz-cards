@@ -1,11 +1,12 @@
+import { GamePlayerRequest } from './../../../api/game-player-request';
 import { Component, ViewChild } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Menu } from 'primeng/menu';
 import { GamePlayer } from 'src/app/main/api/game-player';
-import { GamePlayerRequest } from 'src/app/main/api/game-player-request';
 import { CustomDynamicDialogService } from 'src/app/main/service/custom-dynamic-dialog.service';
 import { GameService } from 'src/app/main/service/game.service';
+import { FormGamePlayerComponent } from '../form-game-player/form-game-player.component';
 
 @Component({
   selector: 'app-list-game-player',
@@ -106,8 +107,18 @@ export class ListGamePlayerComponent {
     });
   }
 
-  openFormDialog(data?: GamePlayer, index?: number): void {
+  openFormDialog(): void {
+    let data: GamePlayerRequest = { game_id: this.gameId, confirmed: false }
 
+    this.customDynamicDialogService.openDialog<GamePlayerRequest>(FormGamePlayerComponent, 'Jogador', data, 'sm').then(
+      (res: GamePlayer) => {
+        if (!res) {
+          return;
+        }
+
+        this.loadData();
+      }
+    );
   }
 
   setPlayerConfirmed(event: Event, record: GamePlayer, index: number): void {
@@ -124,6 +135,7 @@ export class ListGamePlayerComponent {
       rejectButtonStyleClass:"p-button-text",
       accept: () => {
         this.isLoadingMenuItem = true;
+        console.log(this.selectedRecord)
 
         let data: GamePlayerRequest = { confirmed: !this.selectedRecord.confirmed };
 

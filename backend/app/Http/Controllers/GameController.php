@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\NotFoundHttpException;
+use App\Exceptions\ValidationException;
 use App\Http\Requests\GamePlayerRequest;
 use App\Http\Resources\GamePlayerResource;
 use App\Models\Game;
@@ -41,15 +42,32 @@ class GameController extends Controller
 
     public function storePlayer(Game $game, Player $player, GamePlayerRequest $request) {
         $requestData = $request->validated();
-        $data = $game->players()->attach($player->id, $requestData);
+
+        $gamePlayer = Game::find($game->id)
+                            ->players()
+                            ->where('player_id', $player->id)
+                            ->first();
+
+        if ($gamePlayer) {
+            throw new ValidationException('Este jogador já está cadastrado neste jogo.');
+        }
+
+        $game->players()->attach($player->id, $requestData);
+
+        $data = Game::find($game->id)
+                    ->players()
+                    ->where('player_id', $player->id)
+                    ->first();
+
+        $data = new GamePlayerResource($data);
 
         return response()->json($data, 200);
     }
 
     public function destroyPlayer(Game $game, Player $player) {
-        $data = $game->players()->detach([$player->id]);
+        $game->players()->detach([$player->id]);
 
-        return response()->json($data, 200);
+        return response()->noContent();
     }
 
     public function setPlayerConfirmed(Game $game, Player $player, GamePlayerRequest $request) {

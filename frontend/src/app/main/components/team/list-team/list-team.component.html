@@ -48,7 +48,7 @@
                 <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-record>
+        <ng-template pTemplate="body" let-record let-rowIndex="rowIndex">
             <tr class="animation-duration-600 fadein">
                 <td>
                     <p-tableCheckbox [value]="record"></p-tableCheckbox>
@@ -63,7 +63,7 @@
                 </td>
                 <td>
                     <div class="flex flex-nowrap gap-1">
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning" (click)="openFormDialog(record)"></button>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning" (click)="openFormDialog(record, rowIndex)"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteRecord($event, record)"></button>
                     </div>
                  </td>

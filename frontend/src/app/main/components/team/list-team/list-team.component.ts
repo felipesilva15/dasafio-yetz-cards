@@ -1,9 +1,11 @@
+import { CustomDynamicDialogService } from './../../../service/custom-dynamic-dialog.service';
 import { Component } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Team } from 'src/app/main/api/team';
 import { GameService } from 'src/app/main/service/game.service';
 import { TeamService } from 'src/app/main/service/team.service';
+import { FormTeamComponent } from '../form-team/form-team.component';
 
 @Component({
   selector: 'app-list-team',
@@ -18,7 +20,7 @@ export class ListTeamComponent {
   deleteConfirmed: boolean = false;
   gameId: number;
 
-  constructor(private config: DynamicDialogConfig, private ref: DynamicDialogRef, private gameService: GameService, private teamService: TeamService, private messageService: MessageService, private confirmationService: ConfirmationService) {
+  constructor(private config: DynamicDialogConfig, private ref: DynamicDialogRef, private gameService: GameService, private teamService: TeamService, private messageService: MessageService, private confirmationService: ConfirmationService, private customDynamicDialogService: CustomDynamicDialogService) {
     if(this.config.data) {
       this.gameId = this.config.data.gameId
     } else {
@@ -100,7 +102,23 @@ export class ListTeamComponent {
     });
   }
 
-  openFormDialog(data?: Team): void {
+  openFormDialog(data?: Team, index?: number): void {
+    if (!data) {
+      data = {name: '', game_id: this.gameId}
+    }
 
+    this.customDynamicDialogService.openDialog<Team>(FormTeamComponent, 'Times', data, 'sm').then(
+      (res: Team) => {
+        if (!res) {
+          return;
+        }
+
+        if (index || index === 0) {
+          this.records[index] = res;
+        } else {
+          this.records.push(res);
+        }
+      }
+    );;
   }
 }

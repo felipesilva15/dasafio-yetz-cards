@@ -14,6 +14,7 @@ import { MenuModule } from 'primeng/menu';
 import { ToastModule } from 'primeng/toast';
 import { ListTeamComponent } from '../../team/list-team/list-team.component';
 import { ListTeamModule } from '../../team/list-team/list-team.module';
+import { TeamModule } from '../../team/team.module';
 
 
 @NgModule({
@@ -29,7 +30,7 @@ import { ListTeamModule } from '../../team/list-team/list-team.module';
     ConfirmDialogModule,
     MenuModule,
     ToastModule,
-    ListTeamModule,
+    TeamModule,
     SkeletonModule
   ],
   exports: [ListGameComponent]

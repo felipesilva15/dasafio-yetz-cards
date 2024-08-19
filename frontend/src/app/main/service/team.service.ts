@@ -12,6 +12,14 @@ export class TeamService {
 
   constructor(private http: HttpClient) { }
 
+  create(data: Team): Observable<Team> {
+    return this.http.post<Team>(`${this.baseUrl}`, data);
+  }
+
+  update(data: Team, id: number): Observable<Team> {
+    return this.http.put<Team>(`${this.baseUrl}/${id}`, data);
+  }
+
   get (id: number): Observable<Team> {
     return this.http.get<Team>(`${this.baseUrl}/${id}`);
   }

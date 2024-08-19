@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\NotFoundHttpException;
 use App\Http\Requests\GamePlayerRequest;
+use App\Http\Resources\GamePlayerResource;
 use App\Models\Game;
 use App\Models\GamePlayer;
 use App\Models\Player;
@@ -28,9 +29,25 @@ class GameController extends Controller
         return response()->json($game->teams, 200);
     }
 
+    public function players(int $id) {
+        $game = Game::find($id);
+
+        if (!$game) {
+            throw new NotFoundHttpException();
+        }
+        
+        return response()->json(GamePlayerResource::collection($game->players), 200);
+    }
+
     public function storePlayer(Game $game, Player $player, GamePlayerRequest $request) {
         $requestData = $request->validated();
         $data = $game->players()->attach($player->id, $requestData);
+
+        return response()->json($data, 200);
+    }
+
+    public function destroyPlayer(Game $game, Player $player) {
+        $data = $game->players()->detach([$player->id]);
 
         return response()->json($data, 200);
     }

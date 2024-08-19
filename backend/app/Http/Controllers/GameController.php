@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\NotFoundHttpException;
 use App\Http\Requests\GamePlayerRequest;
 use App\Models\Game;
 use App\Models\GamePlayer;
@@ -15,6 +16,16 @@ class GameController extends Controller
     public function __construct(Game $model, GameService $service) {
         $this->model = $model;
         $this->service = $service;
+    }
+
+    public function teams(int $id) {
+        $game = Game::find($id);
+
+        if (!$game) {
+            throw new NotFoundHttpException();
+        }
+        
+        return response()->json($game->teams, 200);
     }
 
     public function storePlayer(Game $game, Player $player, GamePlayerRequest $request) {

@@ -18,10 +18,6 @@ class Game extends Model
 
     protected $with = ['players'];
 
-    protected $casts = [
-        'date' => 'datetime'
-    ];
-
     public function players(): BelongsToMany {
         return $this->belongsToMany(Player::class, 'game_player')
                     ->using(GamePlayer::class)

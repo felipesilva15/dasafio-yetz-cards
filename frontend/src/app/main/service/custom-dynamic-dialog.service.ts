@@ -36,12 +36,12 @@ export class CustomDynamicDialogService {
     });
   }
 
-  openDialog<T>(componentType: Type<any>, title?: string, data?: Object): Promise<T> {
+  openDialog<T>(componentType: Type<any>, title?: string, data?: Object, size?: string): Promise<T> {
     this.ref = this.dialogService.open(componentType, {
       header: title,
       modal: true, 
       data: data,
-      width: '460px',
+      width: this.getWidthBySize(size),
       contentStyle: { 
         overflow: 'auto' 
       },
@@ -60,5 +60,25 @@ export class CustomDynamicDialogService {
         }
       );
     });
+  }
+
+  getWidthBySize(size: string) {
+    let width: string;
+
+    switch (size) {
+      case 'lg':
+        width = '1020px';
+        break;
+
+      case 'md':
+        width = '840px';
+        break;
+    
+      default:
+        width = '460px';
+        break;
+    }
+
+    return width;
   }
 }

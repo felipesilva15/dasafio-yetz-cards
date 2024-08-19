@@ -1,8 +1,10 @@
+import { CustomDynamicDialogService } from './../../../service/custom-dynamic-dialog.service';
 import { Component, ViewChild } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Menu } from 'primeng/menu';
 import { Game } from 'src/app/main/api/game';
 import { GameService } from 'src/app/main/service/game.service';
+import { ListTeamComponent } from '../../team/list-team/list-team.component';
 
 @Component({
   selector: 'app-list-game',
@@ -20,7 +22,7 @@ export class ListGameComponent {
   recordMenuItems!: MenuItem[];
   @ViewChild('recordMenu') recordMenu: Menu;
 
-  constructor(private gameService: GameService, private messageService: MessageService, private confirmationService: ConfirmationService) {}
+  constructor(private gameService: GameService, private messageService: MessageService, private confirmationService: ConfirmationService, private customDynamicDialogService: CustomDynamicDialogService) {}
 
   ngOnInit() {
     this.loadData();
@@ -36,7 +38,7 @@ export class ListGameComponent {
         label: 'Times', 
         icon: 'pi pi-fw pi-flag-fill',
         command: () => {
-          
+          this.openTeamsDialog();
         }
       },
       {
@@ -53,7 +55,7 @@ export class ListGameComponent {
         label: 'Sortear times', 
         icon: 'pi pi-fw pi-megaphone',
         command: (event) => {
-          
+          this.drawTeams();
         }
       }
     ];
@@ -129,6 +131,30 @@ export class ListGameComponent {
             });
           }
         );
+      }
+    });
+  }
+
+  openTeamsDialog(): void {
+    this.customDynamicDialogService.openDialog<void>(ListTeamComponent, 'Times', {gameId: this.selectedRecord.id}, 'md');
+  }
+
+  drawTeams(): void {
+    this.isLoadingMenuItem = true;
+
+    this.gameService.drawTeams(this.selectedRecord.id).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success', 
+          summary: 'Sucesso', 
+          detail: 'Sorteio realizado!.', 
+          life: 5000 
+        });
+
+        this.isLoadingMenuItem = false;
+      },
+      error: () => {
+        this.isLoadingMenuItem = false;
       }
     });
   }

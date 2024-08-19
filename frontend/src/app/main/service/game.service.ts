@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Game } from '../api/game';
 import { Observable } from 'rxjs';
+import { Team } from '../api/team';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,13 @@ export class GameService {
 
   delete (id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  listTeams(id: number): Observable<Team[]> {
+    return this.http.get<Team[]>(`${this.baseUrl}/${id}/teams`);
+  }
+
+  drawTeams (id: number): Observable<void> {
+    return this.http.patch<void>(`${this.baseUrl}/${id}/draw-teams`, null);
   }
 }

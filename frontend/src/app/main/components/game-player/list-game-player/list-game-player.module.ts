@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { ListGameRoutingModule } from './list-game-routing.module';
-import { ListGameComponent } from './list-game.component';
+import { ListGamePlayerComponent } from './list-game-player.component';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -12,29 +10,23 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SkeletonModule } from 'primeng/skeleton';
 import { MenuModule } from 'primeng/menu';
 import { ToastModule } from 'primeng/toast';
-import { ListTeamComponent } from '../../team/list-team/list-team.component';
-import { ListTeamModule } from '../../team/list-team/list-team.module';
-import { TeamModule } from '../../team/team.module';
-import { GamePlayerModule } from '../../game-player/game-player.module';
+
 
 
 @NgModule({
-  declarations: [ListGameComponent],
+  declarations: [ListGamePlayerComponent],
   imports: [
     CommonModule,
-    ListGameRoutingModule,
     ButtonModule,
     RippleModule,
     ToolbarModule,
     TableModule,
     InputTextModule,
     ConfirmDialogModule,
+    SkeletonModule,
     MenuModule,
     ToastModule,
-    TeamModule,
-    GamePlayerModule,
-    SkeletonModule
   ],
-  exports: [ListGameComponent]
+  exports: [ListGamePlayerComponent]
 })
-export class ListGameModule { }
+export class ListGamePlayerModule { }

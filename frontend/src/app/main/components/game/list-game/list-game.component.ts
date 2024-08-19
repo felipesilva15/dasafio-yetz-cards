@@ -5,6 +5,7 @@ import { Menu } from 'primeng/menu';
 import { Game } from 'src/app/main/api/game';
 import { GameService } from 'src/app/main/service/game.service';
 import { ListTeamComponent } from '../../team/list-team/list-team.component';
+import { ListGamePlayerComponent } from '../../game-player/list-game-player/list-game-player.component';
 
 @Component({
   selector: 'app-list-game',
@@ -45,7 +46,7 @@ export class ListGameComponent {
         label: 'Jogadores', 
         icon: 'pi pi-fw pi-users',
         command: (event) => {
-          
+          this.openPlayersDialog();
         }
       },
       {
@@ -137,6 +138,10 @@ export class ListGameComponent {
 
   openTeamsDialog(): void {
     this.customDynamicDialogService.openDialog<void>(ListTeamComponent, 'Times', {gameId: this.selectedRecord.id}, 'md');
+  }
+
+  openPlayersDialog(): void {
+    this.customDynamicDialogService.openDialog<void>(ListGamePlayerComponent, 'Jogadores', {gameId: this.selectedRecord.id}, 'md');
   }
 
   drawTeams(): void {

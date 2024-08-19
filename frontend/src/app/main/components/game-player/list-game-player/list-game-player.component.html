@@ -1,0 +1,121 @@
+<div>
+    <p-toolbar styleClass="mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openFormDialog()"></button>
+            <button pButton pRipple label="Deletar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedRecords($event)" [disabled]="!selectedRecords || !selectedRecords.length"></button>
+        </ng-template>
+    </p-toolbar>
+    <p-table 
+        #dt 
+        [value]="records" 
+        [columns]="cols" 
+        responsiveLayout="scroll" 
+        [rows]="10"
+        [paginator]="true"
+        [rowsPerPageOptions]="[10,20,30]"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} entradas"
+        [(selection)]="selectedRecords"
+        selectionMode="multiple"
+        [rowHover]="true"
+        dataKey="id"
+        [loading]="isLoading"
+        [resizableColumns]="true"
+        columnResizeMode="expand"
+        [scrollable]="true"
+        scrollHeight="400px"
+        [showLoader]="false"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="player.name" pResizableColumn>
+                    <div class="flex justify-content-between align-items-center">
+                        Jogador
+                        <p-sortIcon field="player.name"></p-sortIcon>
+                    </div>
+                </th>
+                <th pSortableColumn="player.level" pResizableColumn>
+                    <div class="flex justify-content-between align-items-center">
+                        Nível
+                        <p-sortIcon field="player.level"></p-sortIcon>
+                    </div>
+                </th>
+                <th pSortableColumn="player.goalkeeper" pResizableColumn>
+                    <div class="flex justify-content-between align-items-center">
+                        Goleiro
+                        <p-sortIcon field="player.goalkeeper"></p-sortIcon>
+                    </div>
+                </th>
+                <th pSortableColumn="team?.name" pResizableColumn>
+                    <div class="flex justify-content-between align-items-center">
+                        Time
+                        <p-sortIcon field="team?.name"></p-sortIcon>
+                    </div>
+                </th>
+                <th pSortableColumn="confirmed" pResizableColumn>
+                    <div class="flex justify-content-between align-items-center">
+                        Confirmado
+                        <p-sortIcon field="confirmed"></p-sortIcon>
+                    </div>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-record let-rowIndex="rowIndex">
+            <tr class="animation-duration-600 fadein">
+                <td>
+                    <span class="p-column-title">Jogador</span>
+                    {{ record.player.name }}
+                </td>
+                <td>
+                    <span class="p-column-title">Nível</span>
+                    {{ record.player.level }}
+                </td>
+                <td>
+                    <span class="p-column-title">Goleiro</span>
+                    <i class="pi pi-check" *ngIf="record.player.goalkeeper"></i>
+                </td>
+                <td>
+                    <span class="p-column-title">Time</span>
+                    {{ record.team?.name }}
+                </td>
+                <td>
+                    <span class="p-column-title">Confirmado</span>
+                    <i class="pi pi-check" *ngIf="record.confirmed"></i>
+                </td>
+                <td>
+                    <div class="flex flex-nowrap gap-1">
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning" (click)="openFormDialog(record, rowIndex)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteRecord($event, record)"></button>
+                        <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-secondary" [loading]="isLoadingMenuItem && selectedRecord.id == record.id" (click)="setPlayerConfirmed($event, record, rowIndex)"></button>
+                    </div>
+                 </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8">
+                    <div class="flex justify-content-center">Nenhum registro encontrado.</div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <tr *ngFor="let _ of [].constructor(3)">
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td>
+                    <div class="flex flex-nowrap gap-1">
+                        <p-skeleton shape="circle" size="3rem" styleClass="mr-2"></p-skeleton>
+                        <p-skeleton shape="circle" size="3rem" styleClass="mr-2"></p-skeleton>
+                        <p-skeleton shape="circle" size="3rem" styleClass="mr-2"></p-skeleton>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<p-toast key="modal-toast" position="top-right"></p-toast>

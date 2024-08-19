@@ -8,8 +8,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 WORKDIR /app
 
 # Copia os arquivos do projeto
-COPY . .
-COPY .env.example .env
+COPY . . 
+COPY .env.example .env 
 
 # Define as variáveis de ambiente no Dockerfile
 ARG DB_CONNECTION=mysql
@@ -28,12 +28,9 @@ RUN sed -i "s#DB_HOST=.*#DB_HOST=${DB_HOST}#" .env \
     && sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#" .env \
     && sed -i "s#APP_ENV=.*#APP_ENV=${APP_ENV}#" .env
 
-RUN composer install
+RUN composer install --ignore-platform-req=ext-bcmath
 RUN php artisan migrate --force
 RUN php artisan route:cache && php artisan view:cache
 RUN php artisan key:generate
-RUN php artisan jwt:secret
-
-EXPOSE 8000
 
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]

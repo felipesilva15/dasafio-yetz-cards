@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrlApi: 'http://localhost:8000/api'
+  baseUrlApi: 'https://desafio-yetzcards-fq6ykvnpaq-uc.a.run.app/api'
 };

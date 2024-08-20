@@ -31,7 +31,7 @@ class GameService
         // Define os goleiros de cada time
         foreach ($game->teams as $team) {
             if (count($goalkeepers) == 0) {
-                exit;
+                break;
             }
 
             if (count($teams[$team->id]) == 0) {
